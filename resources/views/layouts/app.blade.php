@@ -18,16 +18,16 @@
 
         <!-- Scripts -->
         <script src="{{ mix('js/app.js') }}" defer></script>
+        <script src="{{ asset('js/main.js') }}" defer></script>
     </head>
     <body class="font-sans antialiased">
         <x-jet-banner />
 
         <div class="min-h-screen bg-gray-100">
-            @livewire('navigation-menu')
-
+            @livewire('navigation')
             <!-- Page Heading -->
             @if (isset($header))
-                <header class="bg-white shadow">
+                <header class="bg-orange shadow">
                     <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                         {{ $header }}
                     </div>
@@ -39,7 +39,7 @@
                 {{ $slot }}
             </main>
         </div>
-
+        @livewire('footer')
         @stack('modals')
 
         @livewireScripts

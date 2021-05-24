@@ -3,10 +3,11 @@
 namespace App\Actions\Fortify;
 
 use App\Models\User;
+use Illuminate\Support\Str;
+use Laravel\Jetstream\Jetstream;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
-use Laravel\Jetstream\Jetstream;
 
 class CreateNewUser implements CreatesNewUsers
 {
@@ -21,7 +22,7 @@ class CreateNewUser implements CreatesNewUsers
     public function create(array $input)
     {
         Validator::make($input, [
-            'username' => ['required', 'string', 'max:50', 'unique:users', 'alpha_dash'],
+            // 'username' => ['required', 'string', 'max:50', 'unique:users', 'alpha_dash'],
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => $this->passwordRules(),
@@ -29,7 +30,7 @@ class CreateNewUser implements CreatesNewUsers
         ])->validate();
 
         return User::create([
-            'username' => $input['username'],
+            'username' => Str::slug($input['name']) . rand(0, 1000),
             'name' => $input['name'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
